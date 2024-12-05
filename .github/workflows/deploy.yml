@@ -3,10 +3,10 @@ name: CI/CD for Flask App on Render
 on:
   push:
     branches:
-      - master  # Replace 'main' with your Render-tracked branch
+      - main  # Replace 'main' with your Render-tracked branch
   pull_request:
     branches:
-      - master  # Optional: Run workflow for PRs targeting 'main'
+      - main  # Optional: Run workflow for PRs targeting 'main'
 
 jobs:
   test-and-deploy:
