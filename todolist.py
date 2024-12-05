@@ -1,6 +1,12 @@
 from app import create_app
 import os
 from dotenv import load_dotenv
+from datetime import datetime
+from pytz import UTC
+
+if __name__ == "__main__":
+    current_time = datetime.now(UTC)
+    print(f"Current UTC time: {current_time}")
 
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 if os.path.exists(dotenv_path):
