@@ -1,8 +1,8 @@
 import time
-from datetime import datetime, UTC
+from datetime import datetime
+from pytz import UTC  # Import UTC from pytz
 
 from . import utils
-
 
 # Thanks to Dan Jacob and Sean Vieira for making the following snippet
 # available at http://flask.pocoo.org/snippets/33/
@@ -14,7 +14,7 @@ def humanize_time(dt, past_="ago", future_="from now", default="just now"):
     3 days ago, 5 hours from now etc.
     """
 
-    now = datetime.now(UTC)
+    now = datetime.now(UTC)  # Use UTC from pytz
     # remove tzinfo
     dt = dt.replace(tzinfo=None)
     if now > dt:

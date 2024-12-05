@@ -1,6 +1,7 @@
 import json
 import unittest
-
+from datetime import datetime
+from pytz import UTC
 from flask import url_for
 from flask_login import login_user
 from flask_testing import TestCase
@@ -20,6 +21,10 @@ class TodolistAPITestCase(TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+
+    def test_current_time(self):
+        current_time = datetime.now(UTC)
+        assert current_time is not None
 
     def assert404Response(self, response):
         self.assert_404(response)

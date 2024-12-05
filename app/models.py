@@ -1,6 +1,6 @@
 import re
-from datetime import datetime, UTC
-
+from datetime import datetime
+from pytz import UTC
 from flask import url_for
 from flask_login import UserMixin
 from sqlalchemy.orm import synonym
@@ -11,6 +11,10 @@ from app import db, login_manager
 EMAIL_REGEX = re.compile(r"^\S+@\S+\.\S+$")
 USERNAME_REGEX = re.compile(r"^\S+$")
 
+class Todo:
+    def __init__(self, task, created_at=None):
+        self.task = task
+        self.created_at = created_at or datetime.now(UTC)
 
 def check_length(attribute, length):
     """Checks the attribute's length."""
