@@ -1,7 +1,6 @@
 /* tables */
-
 table.tablesorter {
-  background-color: #CDCDCD;
+  background-color: #1a1a1a;
   margin: 10px 0pt 15px;
   width: 100%;
   text-align: left;
@@ -21,11 +20,11 @@ table.tablesorter tbody tr td:first-child {
 
 table.tablesorter thead tr th,
 table.tablesorter tfoot tr th {
-  border: 1px solid #FFF;
+  border: 1px solid #333;
 }
 
 table.tablesorter th:last-child {
-  border-right: 0px solid #FFF;
+  border-right: 0px solid #333;
 }
 
 table.tablesorter thead tr .header {
@@ -36,9 +35,9 @@ table.tablesorter thead tr .header {
 }
 
 table.tablesorter tbody td {
-  color: #3D3D3D;
+  color: #e4e4e4;
   padding: 4px;
-  background-color: #FFF;
+  background-color: #2c2c2c;
   vertical-align: top;
 }
 
@@ -52,5 +51,5 @@ table.tablesorter thead tr .headerSortDown {
 
 table.tablesorter thead tr .headerSortDown,
 table.tablesorter thead tr .headerSortUp {
-  background-color: #A4A4A4;
+  background-color: #333;
 }
