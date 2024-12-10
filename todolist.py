@@ -1,3 +1,12 @@
+"""
+Application entry point and CLI commands.
+Initializes Flask application with selected configuration.
+
+CLI Commands:
+    test: Run unit tests
+    fill_db: Populate database with sample data
+"""
+
 from app import create_app
 import os
 from dotenv import load_dotenv

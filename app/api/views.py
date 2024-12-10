@@ -1,5 +1,9 @@
-from flask import abort, request, url_for
+"""
+REST API endpoints for the TodoList application.
+Provides CRUD operations for Users, TodoLists, and Todos.
+"""
 
+from flask import abort, request, url_for
 from app.api import api
 from app.decorators import admin_required
 from app.models import Todo, TodoList, User
