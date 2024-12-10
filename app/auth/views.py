@@ -1,3 +1,8 @@
+"""
+Authentication views handling user login, logout, and registration.
+Implements Flask-Login for session management.
+"""
+
 from flask import redirect, render_template, request, url_for
 from flask_login import login_user, logout_user
 

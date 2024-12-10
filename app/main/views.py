@@ -1,3 +1,8 @@
+"""
+Main application views handling todolist creation and management.
+Includes both protected and public endpoints.
+"""
+
 from flask import redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
