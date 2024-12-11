@@ -142,6 +142,7 @@ def load_user(user_id):
 
 class TodoList(db.Model, BaseModel):
     __tablename__ = "todolist"
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     _title = db.Column("title", db.String(128))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
