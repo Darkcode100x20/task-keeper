@@ -22,8 +22,8 @@ EMAIL_REGEX = re.compile(r"^\S+@\S+\.\S+$")  # Matches a standard email format
 USERNAME_REGEX = re.compile(r"^\S+$")        # Ensures no whitespace in username input
 
 
-class todolist:
-    """Simple todolist class for basic task representation without database integration."""
+class Todolist:
+    """Simple Todolist class for basic task representation without database integration."""
     def __init__(self, task, created_at=None):
         self.task = task
         self.created_at = created_at or datetime.now(UTC)
@@ -96,7 +96,7 @@ class BaseModel:
 
 class User(UserMixin, db.Model, BaseModel):
     """
-    User model for authentication and todolist list management.
+    User model for authentication and Todolist list management.
     This model includes:
     - Username and email validation
     - Password hashing and verification
@@ -116,7 +116,7 @@ class User(UserMixin, db.Model, BaseModel):
     is_admin = db.Column(db.Boolean, default=False)
 
     # Relationships
-    todolists = db.relationship("TodoList", backref="user", lazy="dynamic")
+    Todolists = db.relationship("TodoList", backref="user", lazy="dynamic")
 
     def __repr__(self):
         """String representation showing admin status and username."""
@@ -242,8 +242,8 @@ class User(UserMixin, db.Model, BaseModel):
             "user_url": url_for("api.get_user", username=self.username, _external=True),
             "member_since": self.member_since,
             "last_seen": self.last_seen,
-            "todolists": url_for("api.get_user_todolists", username=self.username, _external=True),
-            "todolist_count": self.todolists.count(),
+            "Todolists": url_for("api.get_user_Todolists", username=self.username, _external=True),
+            "Todolist_count": self.Todolists.count(),
         }
 
     def promote_to_admin(self):
@@ -268,23 +268,23 @@ def load_user(user_id):
 
 class TodoList(db.Model, BaseModel):
     """
-    Represents a todolist list, which holds a set of todolist items.
+    Represents a Todolist list, which holds a set of Todolist items.
     Each list has a creator and a title, and tracks created_at timestamps.
     """
 
-    __tablename__ = "todolist"
+    __tablename__ = "Todolist"
     id = db.Column(db.Integer, primary_key=True)
     _title = db.Column("title", db.String(128))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     creator = db.Column(db.String(64), db.ForeignKey("user.username"))
-    todos = db.relationship("todolist", backref="todolist", lazy="dynamic")
+    todos = db.relationship("Todolist", backref="Todolist", lazy="dynamic")
 
     def __init__(self, title=None, creator=None, created_at=None):
         """
         Initializes a TodoList instance.
 
         Args:
-            title (str, optional): The title of the todolist list.
+            title (str, optional): The title of the Todolist list.
             creator (str, optional): The username of the creator.
             created_at (datetime, optional): When the list was created.
         """
@@ -294,27 +294,27 @@ class TodoList(db.Model, BaseModel):
 
     def __repr__(self):
         """
-        String representation of the todolist list object.
+        String representation of the Todolist list object.
 
         Returns:
-            str: A string showing the title of the todolist list.
+            str: A string showing the title of the Todolist list.
         """
         return f"<Todolist: {self.title}>"
 
     @property
     def title(self):
         """
-        Gets the title of the todolist list.
+        Gets the title of the Todolist list.
 
         Returns:
-            str: The todolist list title.
+            str: The Todolist list title.
         """
         return self._title
 
     @title.setter
     def title(self, title):
         """
-        Sets the title of the todolist list, ensuring it meets length requirements.
+        Sets the title of the Todolist list, ensuring it meets length requirements.
 
         Args:
             title (str): The desired title.
@@ -337,18 +337,18 @@ class TodoList(db.Model, BaseModel):
             str: The URL to access this list's todos.
         """
         url = None
-        kwargs = dict(todolist_id=self.id, _external=True)
+        kwargs = dict(Todolist_id=self.id, _external=True)
         if self.creator:
             kwargs["username"] = self.creator
-            url = "api.get_user_todolist_todos"
-        return url_for(url or "api.get_todolist_todos", **kwargs)
+            url = "api.get_user_Todolist_todos"
+        return url_for(url or "api.get_Todolist_todos", **kwargs)
 
     def to_dict(self):
         """
-        Converts the todolist list model into a dictionary suitable for JSON responses.
+        Converts the Todolist list model into a dictionary suitable for JSON responses.
 
         Returns:
-            dict: Dictionary containing todolist list data and related statistics.
+            dict: Dictionary containing Todolist list data and related statistics.
         """
         return {
             "title": self.title,
@@ -391,60 +391,60 @@ class TodoList(db.Model, BaseModel):
         return self.todos.filter_by(is_finished=False).count()
 
 
-class todolist(db.Model, BaseModel):
+class Todolist(db.Model, BaseModel):
     """
-    Represents a single todolist item in a todolist list.
+    Represents a single Todolist item in a Todolist list.
     Tracks description, creation time, finish time, and status.
     """
 
-    __tablename__ = "todolist"
+    __tablename__ = "Todolist"
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(128))
     created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     finished_at = db.Column(db.DateTime, index=True, default=None)
     is_finished = db.Column(db.Boolean, default=False)
     creator = db.Column(db.String(64), db.ForeignKey("user.username"))
-    todolist_id = db.Column(db.Integer, db.ForeignKey("todolist.id"))
+    Todolist_id = db.Column(db.Integer, db.ForeignKey("Todolist.id"))
 
-    def __init__(self, description, todolist_id, creator=None, created_at=None):
+    def __init__(self, description, Todolist_id, creator=None, created_at=None):
         """
-        Initializes a todolist instance.
+        Initializes a Todolist instance.
 
         Args:
-            description (str): The description of the todolist task.
-            todolist_id (int): The ID of the related TodoList.
+            description (str): The description of the Todolist task.
+            Todolist_id (int): The ID of the related TodoList.
             creator (str, optional): The username of the creator.
             created_at (datetime, optional): The creation timestamp.
         """
         self.description = description
-        self.todolist_id = todolist_id
+        self.Todolist_id = Todolist_id
         self.creator = creator
         self.created_at = created_at or datetime.now(UTC)
 
     def __repr__(self):
         """
-        String representation of the todolist item, including its status, description, and creator.
+        String representation of the Todolist item, including its status, description, and creator.
 
         Returns:
-            str: A string representation of the todolist.
+            str: A string representation of the Todolist.
         """
-        return "<{} todolist: {} by {}>".format(
+        return "<{} Todolist: {} by {}>".format(
             self.status, self.description, self.creator or "None"
         )
 
     @property
     def status(self):
         """
-        Returns the current status of the todolist.
+        Returns the current status of the Todolist.
 
         Returns:
-            str: 'finished' if the todolist is completed, 'open' otherwise.
+            str: 'finished' if the Todolist is completed, 'open' otherwise.
         """
         return "finished" if self.is_finished else "open"
 
     def finished(self):
         """
-        Marks this todolist as finished and updates the finished_at timestamp.
+        Marks this Todolist as finished and updates the finished_at timestamp.
         """
         self.is_finished = True
         self.finished_at = datetime.now(UTC)
@@ -452,7 +452,7 @@ class todolist(db.Model, BaseModel):
 
     def reopen(self):
         """
-        Marks this todolist as not finished and clears the finished_at timestamp.
+        Marks this Todolist as not finished and clears the finished_at timestamp.
         """
         self.is_finished = False
         self.finished_at = None
@@ -460,10 +460,10 @@ class todolist(db.Model, BaseModel):
 
     def to_dict(self):
         """
-        Converts the todolist model into a dictionary suitable for JSON responses.
+        Converts the Todolist model into a dictionary suitable for JSON responses.
 
         Returns:
-            dict: Dictionary containing todolist data including its status and timestamps.
+            dict: Dictionary containing Todolist data including its status and timestamps.
         """
         return {
             "description": self.description,
